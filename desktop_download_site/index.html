@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GrantProof Desktop Sync</title>
+  <style>
+    :root {
+      --blue:#0B2D77;
+      --orange:#FF7B1A;
+      --bg:#f4f6fb;
+      --text:#111827;
+      --muted:#667085;
+      --card:#ffffff;
+      --border:#d9e0ed;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:linear-gradient(180deg,#f8faff 0%, var(--bg) 100%);
+      color:var(--text);
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 40px 20px 72px; }
+    .hero {
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:32px;
+      padding:32px;
+      background:linear-gradient(135deg,var(--blue),#1d4bb4 60%,var(--orange));
+      color:#fff;
+      box-shadow:0 24px 60px rgba(11,45,119,.18);
+    }
+    .hero h1 { margin:0 0 12px; font-size:42px; line-height:1.02; }
+    .hero p { margin:0; max-width:720px; line-height:1.6; color:rgba(255,255,255,.88); }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:18px; margin-top:22px; }
+    .card {
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:28px;
+      padding:22px;
+      box-shadow:0 18px 34px rgba(11,45,119,.07);
+    }
+    .card h2 { margin:0 0 10px; font-size:22px; }
+    .card p, .card li { color:var(--muted); line-height:1.55; }
+    .btn {
+      display:inline-block;
+      text-decoration:none;
+      background:var(--blue);
+      color:#fff;
+      border-radius:18px;
+      padding:14px 18px;
+      font-weight:700;
+      margin-top:8px;
+    }
+    code {
+      display:block;
+      padding:14px 16px;
+      background:#f8faff;
+      border-radius:18px;
+      border:1px solid var(--border);
+      overflow:auto;
+      color:var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>GrantProof Desktop Sync</h1>
+      <p>Le compagnon Windows qui reçoit les preuves collectées sur mobile dans un dossier local <strong>GrantProof</strong>. Vous pouvez ensuite sauvegarder ou synchroniser ce dossier avec vos outils habituels, sans stockage GrantProof.</p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Parcours recommandé</h2>
+        <ol>
+          <li>Installez <strong>GrantProofDesktopSync.exe</strong> sur le PC cible.</li>
+          <li>Choisissez le dossier local <strong>GrantProof</strong>.</li>
+          <li>Affichez le QR de jumelage côté PC.</li>
+          <li>Scannez-le depuis l’application mobile.</li>
+        </ol>
+      </section>
+      <section class="card">
+        <h2>Publication propre</h2>
+        <p>Cette page sert de modèle simple. Publiez de préférence la page <strong>docs/index.html</strong> du repo desktop avec GitHub Pages afin de connecter automatiquement le bouton de téléchargement aux releases du dépôt.</p>
+        <code>Repo recommandé : grantproof-desktop-sync / docs/index.html</code>
+      </section>
+      <section class="card">
+        <h2>Installation mobile</h2>
+        <p>Dans l’application GrantProof, le flux principal est maintenant : <strong>installer le compagnon PC</strong>, <strong>configurer le téléphone</strong>, puis <strong>jumeler avec le QR du PC</strong>.</p>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

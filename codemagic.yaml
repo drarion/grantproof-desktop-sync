@@ -1,0 +1,103 @@
+workflows:
+  android_demo:
+    name: GrantProof Android V8.3 Desktop Sync Pairing
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      android_signing:
+        - grantproof_upload
+    scripts:
+      - name: Prepare Flutter project and harden Android release signing
+        script: |
+          set -e
+          cd app
+          flutter create --platforms=android --project-name grantproof --org com .
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          manifest = Path('android/app/src/main/AndroidManifest.xml')
+          text = manifest.read_text()
+          marker = '<manifest xmlns:android="http://schemas.android.com/apk/res/android">'
+          permissions = [
+              '    <uses-permission android:name="android.permission.INTERNET"/>',
+              '    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>',
+              '    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>',
+              '    <uses-permission android:name="android.permission.CAMERA"/>',
+          ]
+          if marker in text:
+              for permission in permissions[::-1]:
+                  if permission not in text:
+                      text = text.replace(marker, marker + '\n' + permission, 1)
+              text = text.replace(' android:taskAffinity=""', '')
+              text = re.sub(r'android:icon="[^"]+"', 'android:icon="@drawable/logo_grantproof"', text)
+              text = re.sub(r'android:roundIcon="[^"]+"', 'android:roundIcon="@drawable/logo_grantproof"', text)
+              manifest.write_text(text)
+
+          build_gradle = Path('android/app/build.gradle.kts')
+          build_gradle.write_text("import java.io.File\nimport java.util.Properties\n\nval keystoreProperties = Properties().apply {\n    val keyPropertiesFile = rootProject.file(\"key.properties\")\n    if (keyPropertiesFile.exists()) {\n        keyPropertiesFile.inputStream().use { load(it) }\n    }\n}\n\nplugins {\n    id(\"com.android.application\")\n    id(\"kotlin-android\")\n    id(\"dev.flutter.flutter-gradle-plugin\")\n}\n\nandroid {\n    namespace = \"com.grantproof\"\n    compileSdk = flutter.compileSdkVersion\n    ndkVersion = flutter.ndkVersion\n\n    compileOptions {\n        sourceCompatibility = JavaVersion.VERSION_11\n        targetCompatibility = JavaVersion.VERSION_11\n    }\n\n    kotlinOptions {\n        jvmTarget = JavaVersion.VERSION_11.toString()\n    }\n\n    defaultConfig {\n        applicationId = \"com.grantproof\"\n        minSdk = flutter.minSdkVersion\n        targetSdk = flutter.targetSdkVersion\n        versionCode = flutter.versionCode\n        versionName = flutter.versionName\n        manifestPlaceholders += mutableMapOf(\"appAuthRedirectScheme\" to \"com.grantproof\")\n    }\n\n    signingConfigs {\n        create(\"release\") {\n            if (System.getenv()[\"CI\"].toBoolean()) {\n                storeFile = file(System.getenv(\"CM_KEYSTORE_PATH\") ?: error(\"CM_KEYSTORE_PATH missing\"))\n                storePassword = System.getenv(\"CM_KEYSTORE_PASSWORD\") ?: error(\"CM_KEYSTORE_PASSWORD missing\")\n                keyAlias = System.getenv(\"CM_KEY_ALIAS\") ?: error(\"CM_KEY_ALIAS missing\")\n                keyPassword = System.getenv(\"CM_KEY_PASSWORD\") ?: error(\"CM_KEY_PASSWORD missing\")\n            } else if (keystoreProperties.getProperty(\"storeFile\") != null) {\n                storeFile = file(keystoreProperties.getProperty(\"storeFile\"))\n                storePassword = keystoreProperties.getProperty(\"storePassword\")\n                keyAlias = keystoreProperties.getProperty(\"keyAlias\")\n                keyPassword = keystoreProperties.getProperty(\"keyPassword\")\n            }\n        }\n    }\n\n    buildTypes {\n        getByName(\"release\") {\n            signingConfig = signingConfigs.getByName(\"release\")\n            isMinifyEnabled = false\n            isShrinkResources = false\n        }\n    }\n}\n\nflutter {\n    source = \"../..\"\n}\n")
+
+          kotlin_root = Path('android/app/src/main/kotlin')
+          main_activity = next(kotlin_root.rglob('MainActivity.kt'), None)
+          if main_activity is not None:
+              main_text = main_activity.read_text()
+              if not re.search(r'^package\s+com\.grantproof\s*$', main_text, flags=re.M):
+                  main_text = re.sub(r'^package\s+.+$', 'package com.grantproof', main_text, count=1, flags=re.M)
+              target = kotlin_root / 'com' / 'grantproof' / 'MainActivity.kt'
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_text(main_text)
+              if main_activity.resolve() != target.resolve():
+                  main_activity.unlink()
+          PY
+          mkdir -p android/app/src/main/res/drawable android/app/src/main/res/drawable-v21 android/app/src/main/res/values-v31 android/app/src/main/res/values-night-v31
+          cp android_template_v52/app/src/main/res/drawable/logo_grantproof.png android/app/src/main/res/drawable/logo_grantproof.png
+          cp android_template_v52/app/src/main/res/drawable/splash_logo_grantproof.png android/app/src/main/res/drawable/splash_logo_grantproof.png
+          cp android_template_v52/app/src/main/res/drawable/launch_background.xml android/app/src/main/res/drawable/launch_background.xml
+          cp android_template_v52/app/src/main/res/drawable-v21/launch_background.xml android/app/src/main/res/drawable-v21/launch_background.xml
+          cp android_template_v52/app/src/main/res/values-v31/styles.xml android/app/src/main/res/values-v31/styles.xml
+          cp android_template_v52/app/src/main/res/values-night-v31/styles.xml android/app/src/main/res/values-night-v31/styles.xml
+          cat > android/key.properties <<EOF2
+          storePassword=$CM_KEYSTORE_PASSWORD
+          keyPassword=$CM_KEY_PASSWORD
+          keyAlias=$CM_KEY_ALIAS
+          storeFile=$CM_KEYSTORE_PATH
+          EOF2
+          test -n "$CM_KEYSTORE_PATH"
+          test -n "$CM_KEYSTORE_PASSWORD"
+          test -n "$CM_KEY_ALIAS"
+          test -n "$CM_KEY_PASSWORD"
+          echo "Android package expected: com.grantproof"
+          echo "Signing variables are present."
+          grep -n 'applicationId = "com.grantproof"' android/app/build.gradle.kts
+          grep -n 'namespace = "com.grantproof"' android/app/build.gradle.kts
+          keytool -list -v -alias "$CM_KEY_ALIAS" -keystore "$CM_KEYSTORE_PATH" -storepass "$CM_KEYSTORE_PASSWORD" -keypass "$CM_KEY_PASSWORD" | grep -E 'Owner:|SHA1:' || true
+          flutter pub get
+      - name: Analyze
+        script: |
+          cd app
+          flutter analyze --no-fatal-warnings --no-fatal-infos
+      - name: Build release APK and verify non-debug signature
+        script: |
+          set -e
+          cd app
+          flutter clean
+          flutter build apk --release
+          ls -R build/app/outputs || true
+          APKSIGNER=$(find "${ANDROID_HOME:-/usr/local/share/android-sdk}/build-tools" -name apksigner -type f | sort | tail -n 1)
+          if [ -z "$APKSIGNER" ] || [ ! -f build/app/outputs/flutter-apk/app-release.apk ]; then
+            echo "Missing apksigner or APK output"
+            exit 1
+          fi
+          CERT_INFO=$($APKSIGNER verify --print-certs build/app/outputs/flutter-apk/app-release.apk)
+          echo "$CERT_INFO"
+          if echo "$CERT_INFO" | grep -q 'CN=Android Debug'; then
+            echo 'ERROR: APK is still debug-signed. Failing the build on purpose.'
+            exit 1
+          fi
+          echo 'Signature check OK: APK is not debug-signed.'
+    artifacts:
+      - app/build/**/outputs/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - christian.noirard@gmail.com
