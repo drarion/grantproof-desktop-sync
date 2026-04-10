@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GrantProof Desktop Sync</title>
+  <style>
+    :root {
+      --blue: #173b72;
+      --blue-soft: #2d5ca6;
+      --orange: #f29b38;
+      --bg: #f4f7fb;
+      --text: #182433;
+      --muted: #5f6b7a;
+      --card: rgba(255,255,255,0.92);
+      --border: #d9e0ed;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Segoe UI, Inter, Arial, sans-serif;
+      background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 48px 20px 72px; }
+    .hero {
+      background: linear-gradient(135deg, rgba(23,59,114,0.98), rgba(45,92,166,0.94));
+      border-radius: 28px;
+      padding: 42px;
+      color: white;
+      box-shadow: 0 18px 60px rgba(23,59,114,0.18);
+    }
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+    h1 { font-size: 42px; margin: 0 0 14px; }
+    p.lead { font-size: 18px; line-height: 1.6; max-width: 760px; margin: 0; color: rgba(255,255,255,0.9); }
+    .buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+    a.btn, button.btn {
+      text-decoration: none;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 15px;
+    }
+    a.primary, button.primary { background: var(--orange); color: #13253f; }
+    a.secondary, button.secondary { background: rgba(255,255,255,0.12); color: white; border: 1px solid rgba(255,255,255,0.2); }
+    .disabled { opacity: 0.55; pointer-events: none; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 18px; margin-top: 24px; }
+    .card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(18,35,61,0.08);
+      border: 1px solid var(--border);
+    }
+    .card h2 { margin-top: 0; font-size: 20px; color: var(--blue); }
+    .muted { color: var(--muted); line-height: 1.55; }
+    .status {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.92);
+      line-height: 1.5;
+    }
+    code.inline {
+      display: inline-block;
+      background: #eef3fb;
+      padding: 4px 8px;
+      border-radius: 10px;
+      color: var(--blue);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="badge">GrantProof Desktop Sync</div>
+      <h1>Le compagnon PC de GrantProof</h1>
+      <p class="lead">Recevez les synchronisations mobiles dans un dossier local <strong>GrantProof</strong>, sans serveur GrantProof et sans complexité Microsoft ou Google côté terrain.</p>
+      <div class="buttons">
+        <a class="btn primary disabled" id="download-latest" href="#">Télécharger pour Windows</a>
+        <a class="btn secondary disabled" id="view-releases" href="#">Voir les releases</a>
+      </div>
+      <div class="status" id="release-status">
+        Activez GitHub Pages depuis ce dépôt pour connecter automatiquement cette page aux GitHub Releases du repo.
+      </div>
+    </section>
+
+    <div class="grid">
+      <article class="card">
+        <h2>Installation</h2>
+        <p class="muted">Téléchargez le fichier <span class="inline">GrantProofDesktopSync.exe</span>, lancez-le, choisissez votre dossier local et démarrez le serveur local.</p>
+      </article>
+      <article class="card">
+        <h2>Jumelage</h2>
+        <p class="muted">Le logiciel affiche un QR code unique. Le membre du staff le scanne dans GrantProof Mobile pour lier le téléphone au bon ordinateur.</p>
+      </article>
+      <article class="card">
+        <h2>Synchronisation</h2>
+        <p class="muted">Les fichiers arrivent dans votre dossier local GrantProof. Le compagnon peut aussi générer des fichiers Word et Excel utilisables directement, puis vous pouvez sauvegarder ou synchroniser ce dossier avec vos outils habituels.</p>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const latestButton = document.getElementById('download-latest');
+      const releasesButton = document.getElementById('view-releases');
+      const status = document.getElementById('release-status');
+      const exeName = 'GrantProofDesktopSync.exe';
+
+      function inferGithubRepo() {
+        const host = window.location.hostname;
+        const parts = window.location.pathname.split('/').filter(Boolean);
+
+        if (host.endsWith('github.io') && parts.length >= 1) {
+          const owner = host.split('.')[0];
+          const repo = parts[0];
+          return `https://github.com/${owner}/${repo}`;
+        }
+
+        if (host === 'github.com' && parts.length >= 2) {
+          return `https://github.com/${parts[0]}/${parts[1]}`;
+        }
+
+        return '';
+      }
+
+      const repo = inferGithubRepo();
+      if (!repo) {
+        return;
+      }
+
+      latestButton.href = `${repo}/releases/latest/download/${exeName}`;
+      releasesButton.href = `${repo}/releases`;
+      latestButton.classList.remove('disabled');
+      releasesButton.classList.remove('disabled');
+      status.textContent = 'Téléchargement connecté automatiquement aux GitHub Releases de ce dépôt.';
+    })();
+  </script>
+</body>
+</html>
