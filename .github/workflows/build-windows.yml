@@ -6,6 +6,9 @@ on:
       - "v*"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -34,3 +37,17 @@ jobs:
         with:
           name: GrantProofDesktopSync-windows
           path: dist/GrantProofDesktopSync.exe
+
+      - name: Publish desktop-latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: desktop-latest
+          name: GrantProof Desktop Sync
+          files: dist/GrantProofDesktopSync.exe
+          generate_release_notes: false
+          append_body: false
+          overwrite_files: true
+          body: |
+            Latest public Windows build for GrantProof Desktop Sync.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
