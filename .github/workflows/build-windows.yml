@@ -27,7 +27,7 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller --noconfirm --onefile --windowed --name GrantProofDesktopSync desktop_sync_app/app.py
+          pyinstaller --noconfirm --onefile --windowed --name GrantProofDesktopSync --icon desktop_sync_app/assets/grantproof_icon.ico --add-data "desktop_sync_app/assets;desktop_sync_app/assets" desktop_sync_app/app.py
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
