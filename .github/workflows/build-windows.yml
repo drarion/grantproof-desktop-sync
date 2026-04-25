@@ -1,0 +1,53 @@
+name: Build Windows Desktop Sync
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build EXE
+        run: |
+          pyinstaller --noconfirm --onefile --windowed --name GrantProofDesktopSync --icon desktop_sync_app/assets/grantproof_icon.ico --add-data "desktop_sync_app/assets;desktop_sync_app/assets" desktop_sync_app/app.py
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GrantProofDesktopSync-windows
+          path: dist/GrantProofDesktopSync.exe
+
+      - name: Publish desktop-latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: desktop-latest
+          name: GrantProof Desktop Sync
+          files: dist/GrantProofDesktopSync.exe
+          generate_release_notes: false
+          append_body: false
+          overwrite_files: true
+          body: |
+            Latest public Windows build for GrantProof Desktop Sync.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
