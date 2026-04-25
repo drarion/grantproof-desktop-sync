@@ -1,4 +1,4 @@
-# GrantProof Desktop Sync — v9.8.0
+# GrantProof Desktop Sync — v9.9.0
 
 Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les registres et générer les rapports premium DOCX.
 
@@ -13,3 +13,12 @@ Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les reg
 ## Build Windows
 
 Utiliser GitHub Actions : `.github/workflows/build-windows.yml`.
+
+
+## v9.9.0 — Editable premium reports
+
+- Premium activity reports are now generated as true editable DOCX documents: titles, paragraphs, KPI labels, highlights and captions can be edited directly in Word.
+- Page 1 keeps the dashboard-style layout while avoiding full-page image rendering.
+- Page 2 is a structured visual annex for additional media.
+- Country maps are generated from the project country. An orange point is plotted only when GPS coordinates are available.
+- Legacy per-evidence Word files remain cleaned from technical evidence folders during rebuild.
