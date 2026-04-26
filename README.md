@@ -1,4 +1,4 @@
-# GrantProof Desktop Sync — v10.3.1
+# GrantProof Desktop Sync — v10.4.0
 
 Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les registres et générer les rapports premium DOCX.
 
@@ -35,3 +35,11 @@ Utiliser GitHub Actions : `.github/workflows/build-windows.yml`.
 ## v10.3.1 — Layout overflow safety pass
 - increased page-1 top band vertical space to prevent truncation in overview/logframe blocks
 - tightened secondary spacing and media block height for safer one-page composition
+
+
+## v10.4.0 — Page 1 / Page 2 premium layout refinement
+- moved the evidence metadata block lower in the overview card to breathe below the narrative text
+- shifted the header country silhouette left and kept the organisation/date block aligned to the report right margin
+- differentiated title icons across all major sections to avoid semantic confusion
+- enlarged the proof photo on page 1 and tightened the body structure to keep the lower map visually higher
+- annex pages now follow the same visual margin logic as page 1 for a more consistent institutional report feel
