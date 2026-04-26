@@ -1,4 +1,4 @@
-# GrantProof Desktop Sync — v10.8.0
+# GrantProof Desktop Sync — v10.6.0
 
 Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les registres et générer les rapports premium DOCX.
 
