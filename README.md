@@ -1,4 +1,4 @@
-# GrantProof Desktop Sync — v10.6.0
+# GrantProof Desktop Sync — v10.8.0
 
 Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les registres et générer les rapports premium DOCX.
 
@@ -36,3 +36,11 @@ Utiliser GitHub Actions : `.github/workflows/build-windows.yml`.
 - Uses model-derived premium icons for title blocks, KPI cards, overview metadata, and sector alignment.
 - Raises paragraph/KPI typography to match the model hierarchy, with body text >= 8 pt.
 - Enlarges KPI numbers and uses white/pale icon backgrounds as in the model.
+
+
+## v10.8.0 — Editable premium model clone
+- Returned to a fully editable DOCX layout while matching the premium report model more closely.
+- Re-extracted model icons from the supplied reference and normalized them for Word rendering.
+- Increased typography hierarchy: larger header title, section headings, body text and KPI numbers.
+- KPI cards now follow the reference more closely with large bold values and pale icon backgrounds.
+- Row heights are now minimum heights rather than exact heights to avoid clipped text.
