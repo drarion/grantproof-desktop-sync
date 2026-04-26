@@ -1,4 +1,4 @@
-# GrantProof Desktop Sync — v10.1.0
+# GrantProof Desktop Sync — v10.2.0
 
 Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les registres et générer les rapports premium DOCX.
 
@@ -15,7 +15,7 @@ Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les reg
 Utiliser GitHub Actions : `.github/workflows/build-windows.yml`.
 
 
-## v10.1.0 — Editable premium reports
+## v10.2.0 — Premium report polish and layout refinement
 
 - Premium activity reports are now generated as true editable DOCX documents: titles, paragraphs, KPI labels, highlights and captions can be edited directly in Word.
 - Page 1 keeps the dashboard-style layout while avoiding full-page image rendering.
