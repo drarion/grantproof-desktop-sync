@@ -1,4 +1,4 @@
-# GrantProof Desktop Sync — v10.2.0
+# GrantProof Desktop Sync — v10.3.1
 
 Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les registres et générer les rapports premium DOCX.
 
@@ -22,3 +22,16 @@ Utiliser GitHub Actions : `.github/workflows/build-windows.yml`.
 - Page 2 is a structured visual annex for additional media.
 - Country maps are generated from the project country. An orange point is plotted only when GPS coordinates are available.
 - Legacy per-evidence Word files remain cleaned from technical evidence folders during rebuild.
+
+
+## v10.3.0 — Ultra-premium report refinements
+- section title icons switched back to single-color styling with more premium icon choices
+- header remains full-bleed while internal text aligns with report body margins
+- activity overview no longer truncates the main narrative summary
+- logframe section now has its own icon and improved spacing
+- sector alignment, location map, and page-1 bottom area refined for a cleaner NGO-grade report layout
+
+
+## v10.3.1 — Layout overflow safety pass
+- increased page-1 top band vertical space to prevent truncation in overview/logframe blocks
+- tightened secondary spacing and media block height for safer one-page composition
