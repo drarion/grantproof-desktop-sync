@@ -29,3 +29,10 @@ Utiliser GitHub Actions : `.github/workflows/build-windows.yml`.
 - matching section-title icon language, thin title rules, rounded hero photo, model-like cards and spacing.
 - header/meta/map blocks repositioned to match the model proportions.
 - annex pages retained after the dashboard page when additional images are available.
+
+
+## v10.6.0 — Editable model mimicry restoration
+- Restores page 1 as a true editable DOCX layout instead of a full-page screenshot.
+- Uses model-derived premium icons for title blocks, KPI cards, overview metadata, and sector alignment.
+- Raises paragraph/KPI typography to match the model hierarchy, with body text >= 8 pt.
+- Enlarges KPI numbers and uses white/pale icon backgrounds as in the model.
