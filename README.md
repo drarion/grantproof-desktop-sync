@@ -1,4 +1,4 @@
-# GrantProof Desktop Sync — v10.4.0
+# GrantProof Desktop Sync — v10.6.0
 
 Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les registres et générer les rapports premium DOCX.
 
@@ -15,7 +15,7 @@ Compagnon PC local-first pour recevoir les preuves terrain, reconstruire les reg
 Utiliser GitHub Actions : `.github/workflows/build-windows.yml`.
 
 
-## v10.2.0 — Premium report polish and layout refinement
+## v10.1.0 — Editable premium reports
 
 - Premium activity reports are now generated as true editable DOCX documents: titles, paragraphs, KPI labels, highlights and captions can be edited directly in Word.
 - Page 1 keeps the dashboard-style layout while avoiding full-page image rendering.
@@ -24,22 +24,8 @@ Utiliser GitHub Actions : `.github/workflows/build-windows.yml`.
 - Legacy per-evidence Word files remain cleaned from technical evidence folders during rebuild.
 
 
-## v10.3.0 — Ultra-premium report refinements
-- section title icons switched back to single-color styling with more premium icon choices
-- header remains full-bleed while internal text aligns with report body margins
-- activity overview no longer truncates the main narrative summary
-- logframe section now has its own icon and improved spacing
-- sector alignment, location map, and page-1 bottom area refined for a cleaner NGO-grade report layout
-
-
-## v10.3.1 — Layout overflow safety pass
-- increased page-1 top band vertical space to prevent truncation in overview/logframe blocks
-- tightened secondary spacing and media block height for safer one-page composition
-
-
-## v10.4.0 — Page 1 / Page 2 premium layout refinement
-- moved the evidence metadata block lower in the overview card to breathe below the narrative text
-- shifted the header country silhouette left and kept the organisation/date block aligned to the report right margin
-- differentiated title icons across all major sections to avoid semantic confusion
-- enlarged the proof photo on page 1 and tightened the body structure to keep the lower map visually higher
-- annex pages now follow the same visual margin logic as page 1 for a more consistent institutional report feel
+## v10.6.0 — perfect premium model mimicry
+- page 1 now uses a high-resolution premium dashboard renderer closely aligned with the provided premium report model.
+- matching section-title icon language, thin title rules, rounded hero photo, model-like cards and spacing.
+- header/meta/map blocks repositioned to match the model proportions.
+- annex pages retained after the dashboard page when additional images are available.
